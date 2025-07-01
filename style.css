@@ -268,7 +268,7 @@ body {
     padding: 15px;
     margin: 20px 0;
     border-radius: 5px;
-    color: white; /* Texto branco */
+    color: #333; /* Texto cinza */
 }
 
 /* Layout da grade de dicas */
