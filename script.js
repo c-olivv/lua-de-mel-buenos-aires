@@ -1,72 +1,69 @@
-function showTab(tabName) {
-    // Esconder todas as abas
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => content.classList.remove('active'));
-    
-    const tabs = document.querySelectorAll('.tab');
-    tabs.forEach(tab => tab.classList.remove('active'));
-    
-    // Mostrar aba selecionada
-    document.getElementById(tabName).classList.add('active');
-    // 'event.target' se refere ao botão que foi clicado.
-    // Garantimos que o evento foi passado, o que acontece automaticamente com onclick no HTML.
-    if (event && event.target) {
-        event.target.classList.add('active');
-    }
-}
-
-// Adicionar efeitos de hover nos cards
 document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.day-card, .restaurant-card, .tip-card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Código para as abas (se você já tem, mantenha o seu. Se não, use este)
-    const tabButtons = document.querySelectorAll('.tab-button');
+    // --- Lógica das Abas ---
+    // Seleciona todos os botões de aba com a classe 'tab'
+    const tabButtons = document.querySelectorAll('.tab');
+    // Seleciona todos os conteúdos das abas com a classe 'tab-content'
     const tabContents = document.querySelectorAll('.tab-content');
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const tabId = button.getAttribute('data-tab');
+    /**
+     * Função global para exibir a aba correspondente ao ID fornecido.
+     * Esta função será chamada diretamente do HTML via onclick.
+     * @param {string} tabId O ID do elemento div da aba a ser exibida (ex: 'roteiro', 'gastronomia').
+     */
+    window.showTab = function(tabId) {
+        // Remove a classe 'active' de todos os botões e conteúdos de aba
+        tabButtons.forEach(button => button.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
 
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
+        // Adiciona a classe 'active' ao conteúdo da aba clicada
+        document.getElementById(tabId).classList.add('active');
 
-            button.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-        });
-    });
+        // Encontra o botão correspondente à aba clicada (usando o atributo onclick)
+        // e adiciona a classe 'active' a ele.
+        const activeButton = document.querySelector(`.tab[onclick="showTab('${tabId}')"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+    };
 
-    // Ativa a primeira aba por padrão ao carregar a página
-    if (tabButtons.length > 0) {
-        tabButtons[0].click();
-    }
+    // Ativa a primeira aba ('roteiro') por padrão ao carregar a página,
+    // garantindo que um conteúdo seja visível desde o início.
+    // Você pode ajustar 'roteiro' para outra aba se preferir que comece diferente.
+    showTab('roteiro');
 
 
-    // NOVO CÓDIGO PARA EXPANDIR/RECOLHER CARDS DE RESTAURANTES
+    // --- Lógica para Expandir/Recolher Detalhes dos Restaurantes ---
+    // Seleciona todos os cards de restaurante
     const restaurantCards = document.querySelectorAll('.restaurant-card');
 
     restaurantCards.forEach(card => {
+        // Para cada card de restaurante, encontra o botão de toggle e a div de informações extras
         const toggleButton = card.querySelector('.toggle-info-btn');
-        if (toggleButton) {
+        const moreInfoDiv = card.querySelector('.more-info');
+
+        // Garante que ambos os elementos existam antes de adicionar o event listener
+        if (toggleButton && moreInfoDiv) {
+            // Adiciona um listener de clique ao botão de toggle
             toggleButton.addEventListener('click', function() {
-                card.classList.toggle('expanded');
-                if (card.classList.contains('expanded')) {
-                    toggleButton.textContent = 'Ver Menos';
+                // Alterna a classe 'show-details' na div 'moreInfoDiv'.
+                // Esta classe controlará a visibilidade e transição via CSS.
+                moreInfoDiv.classList.toggle('show-details');
+
+                // Altera o texto do botão para 'Ver Menos' ou 'Ver Detalhes'
+                // com base no estado atual da div 'moreInfoDiv'.
+                if (moreInfoDiv.classList.contains('show-details')) {
+                    toggleButton.textContent = 'Ocultar Detalhes'; // Texto quando expandido
                 } else {
-                    toggleButton.textContent = 'Ver Detalhes';
+                    toggleButton.textContent = 'Ver Detalhes'; // Texto quando recolhido
                 }
             });
         }
     });
+
+    // --- Efeitos de Hover nos Cards ---
+    // O código JavaScript para os efeitos de hover foi removido daqui.
+    // Ele será tratado inteiramente pelo CSS, tornando o código mais limpo e performático.
+    // Verifique seu arquivo style.css para os estilos de :hover aplicados a .day-card,
+    // .restaurant-card, .tip-card, etc.
 });
