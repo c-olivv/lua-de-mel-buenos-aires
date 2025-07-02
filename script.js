@@ -60,10 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-
-    // --- Efeitos de Hover nos Cards ---
-    // O código JavaScript para os efeitos de hover foi removido daqui.
-    // Ele será tratado inteiramente pelo CSS, tornando o código mais limpo e performático.
-    // Verifique seu arquivo style.css para os estilos de :hover aplicados a .day-card,
-    // .restaurant-card, .tip-card, etc.
 });
+
+function mostrarPontosTuristicos() {
+  esconderTodasAsAbas();
+  document.getElementById('pontos-turisticos').style.display = 'block';
+}
