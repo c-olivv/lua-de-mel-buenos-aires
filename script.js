@@ -61,8 +61,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-function mostrarPontosTuristicos() {
-  esconderTodasAsAbas();
-  document.getElementById('pontos-turisticos').style.display = 'block';
-}
