@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Função global para exibir a aba correspondente ao ID fornecido.
      * Esta função será chamada diretamente do HTML via onclick.
-     * @param {string} tabId O ID do elemento div da aba a ser exibida (ex: 'roteiro', 'gastronomia').
+     * @param {string} tabId O ID do elemento div da aba a ser exibida (ex: 'roteiro', 'gastronomia', 'pontos-turisticos').
      */
     window.showTab = function(tabId) {
         // Remove a classe 'active' de todos os botões e conteúdos de aba
@@ -17,10 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
         tabContents.forEach(content => content.classList.remove('active'));
 
         // Adiciona a classe 'active' ao conteúdo da aba clicada
-        document.getElementById(tabId).classList.add('active');
+        const targetContent = document.getElementById(tabId);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
 
         // Encontra o botão correspondente à aba clicada (usando o atributo onclick)
         // e adiciona a classe 'active' a ele.
+        // O seletor foi ajustado para ser robusto com o ID "pontos-turisticos".
         const activeButton = document.querySelector(`.tab[onclick="showTab('${tabId}')"]`);
         if (activeButton) {
             activeButton.classList.add('active');
@@ -29,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ativa a primeira aba ('roteiro') por padrão ao carregar a página,
     // garantindo que um conteúdo seja visível desde o início.
-    // Você pode ajustar 'roteiro' para outra aba se preferir que comece diferente.
     showTab('roteiro');
 
 
@@ -50,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Esta classe controlará a visibilidade e transição via CSS.
                 moreInfoDiv.classList.toggle('show-details');
 
-                // Altera o texto do botão para 'Ver Menos' ou 'Ver Detalhes'
+                // Altera o texto do botão para 'Ocultar Detalhes' ou 'Ver Detalhes'
                 // com base no estado atual da div 'moreInfoDiv'.
                 if (moreInfoDiv.classList.contains('show-details')) {
                     toggleButton.textContent = 'Ocultar Detalhes'; // Texto quando expandido
